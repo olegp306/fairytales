@@ -22,19 +22,19 @@
  
 
  
- const ICON_RECORDING = new Icon(require('../../../assets/images/record_icon@1x.png'), 20, 14);
- const ICON_RECORD_BUTTON = new Icon(require("../../../assets/images/record_button@1x.png"), 70, 119);
+ const ICON_RECORDING = new Icon(require(`../../../assets/images/record_icon_1x.png`), 20, 14);
+ const ICON_RECORD_BUTTON = new Icon(require(`../../../assets/images/record_button_1x.png`), 70, 119);
  
- const ICON_PLAY_BUTTON = new Icon(require('../../../assets/images/play_button@1x.png'), 34, 51);
- const ICON_PAUSE_BUTTON = new Icon(require('../../../assets/images/pause_button@1x.png'), 34, 51);
- const ICON_STOP_BUTTON = new Icon(require('../../../assets/images/stop_button@1x.png'), 22, 22);
+ const ICON_PLAY_BUTTON = new Icon(require('../../../assets/images/play_button_1x.png'), 34, 51);
+ const ICON_PAUSE_BUTTON = new Icon(require('../../../assets/images/pause_button_1x.png'), 34, 51);
+ const ICON_STOP_BUTTON = new Icon(require('../../../assets/images/stop_button_1x.png'), 22, 22);
  
- const ICON_MUTED_BUTTON = new Icon(require('../../../assets/images/muted_button@1x.png'), 67, 58);
- const ICON_UNMUTED_BUTTON = new Icon(require('../../../assets/images/unmuted_button@1x.png'), 67, 58);
+ const ICON_MUTED_BUTTON = new Icon(require('../../../assets/images/muted_button_1x.png'), 67, 58);
+ const ICON_UNMUTED_BUTTON = new Icon(require('../../../assets/images/unmuted_button_1x.png'), 67, 58);
  
- const ICON_TRACK_1 = new Icon(require('../../../assets/images/track_1@1x.png'), 166, 5);
- const ICON_THUMB_1 = new Icon(require('../../../assets/images/thumb_1@1x.png'), 18, 19);
- const ICON_THUMB_2 = new Icon(require('../../../assets/images/thumb_2@1x.png'), 15, 19);
+ const ICON_TRACK_1 = new Icon(require('../../../assets/images/track_1_1x.png'), 166, 5);
+ const ICON_THUMB_1 = new Icon(require('../../../assets/images/thumb_1_1x.png'), 18, 19);
+ const ICON_THUMB_2 = new Icon(require('../../../assets/images/thumb_2_1x.png'), 15, 19);
  
  const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
  const BACKGROUND_COLOR = '#FFF8ED';
