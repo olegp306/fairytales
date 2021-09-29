@@ -1,8 +1,8 @@
-const fairytales = [ 
+export default  fairytales = [ 
   {
 	name: "kolobok", 
-    titleImage: "./kolobok/images/kol_1.jpg", 
-    ru: { 
+  titleImage: "./kolobok/images/kol_1.jpg", 
+  ru: { 
       name: "Колобок", 
       scenes: [ 
         { 
