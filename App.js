@@ -10,10 +10,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Fairytale />
-      {/* <PlayList />/ */}
-      {/* <PlayListView /> */}
-      {/* <AudioRecord /> */}
-      <StatusBar style="auto" />
+   
+      {/* <StatusBar style="auto" /> */}
     </View>
   );
 }

@@ -3,8 +3,6 @@ import { Image, StyleSheet } from "react-native";
 
 const s = StyleSheet.create({
   mute: {
-    width: 180,
-    resizeMode: "contain",
   },
 });
 
