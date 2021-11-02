@@ -1,16 +1,36 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Fairytale from "./scr/components/views/fairytale";
+import Scene from "./scr/components/views/fairytale";
+import fairytales from "./fairytales";
 
-// import PlayListView from "./scr/components/playList";
-// import AudioRecord from "./scr/components/audioRecord";
+const kolobokScenes = fairytales[0].ru.scenes;
 
 export default function App() {
+  const [sceneNumber, setSceneNumber] = useState(0);
+
+
+
+  const onPressNext = () => {
+    setSceneNumber(sceneNumber + 1);
+  };
+
+  const onPressPrev = () => {
+    setSceneNumber(sceneNumber - 1);
+  };
+
+  const scene = kolobokScenes[sceneNumber];
+  const { image, record, text } = scene;
+
+
   return (
     <View style={styles.container}>
-      <Fairytale />
-   
+      <Scene
+        image={image}
+        record={record}
+        onPressNext={onPressNext}
+        onPressPrev={onPressPrev}
+      />
+
       {/* <StatusBar style="auto" /> */}
     </View>
   );
@@ -20,7 +40,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 });

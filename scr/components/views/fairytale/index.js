@@ -1,1 +1,1 @@
-export {default} from "./Fairytale"
+export {default} from "./scene/Scene"

@@ -9,19 +9,17 @@ import PauseButton from "../components/PauseButton";
 
 const s = StyleSheet.create({
   wrapper: {
-    // position:'absolute',
-    // flex:1 ,
-    flexDirection:"column",
-    justifyContent:"space-between",
-    // width:'100%',
-    height:'100%',
+    flexDirection: "column",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "100%",
     backgroundColor: "rgba(52, 52, 52, 0.9)",
   },
 
   top: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    paddingRight:20,
+    paddingRight: 20,
   },
   center: {
     flexDirection: "row",
@@ -30,16 +28,15 @@ const s = StyleSheet.create({
   bottom: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingRight:20,
-    paddingLeft:20,
-
+    paddingRight: 20,
+    paddingLeft: 20,
   },
 });
 
-const PauseView = ({ slide }) => {
-  const [sound, setSound] = React.useState();
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
+const PauseView = ({ onPressNext, onPressPrev }) => {
+  const [sound, setSound] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const loadingSound = async () => {
     console.log("useEffect loadingSound");
@@ -90,17 +87,15 @@ const PauseView = ({ slide }) => {
 
   const onPrevClick = () => {
     console.log("onPrevClick");
+    onPressPrev();
   };
   const onNextClick = () => {
     console.log("onNextClick");
+    onPressNext();
   };
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={() => setIsOpen(!isOpen)}>
-      <View
-        style={s.wrapper}
-        opacity={isOpen ? 1 : 0}
-        onPress={onPressScreen}
-      >
+      <View style={s.wrapper} opacity={isOpen ? 1 : 0} onPress={onPressScreen}>
         <View style={s.top}>
           <MuteSwitcher value={true} />
         </View>
@@ -112,8 +107,8 @@ const PauseView = ({ slide }) => {
           )}
         </View>
         <View style={s.bottom}>
-          <PrevButton onClick={onPrevClick} />
-          <NextButton onClick={onNextClick} />
+          <PrevButton onPress={onPrevClick} />
+          <NextButton onPress={onNextClick} />
         </View>
       </View>
     </TouchableOpacity>

@@ -1,9 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
-import PauseView from "./pauseView/PauseView";
+import PauseView from "../pauseView/PauseView";
 
 const s = StyleSheet.create({
- 
   backgroundImage: {
     flex: 1,
     borderWidth: 1,
@@ -26,19 +25,19 @@ const s = StyleSheet.create({
   },
 });
 
-const Fairytale = () => {
- 
+const Scene = ({ image, record, text, onPressNext, onPressPrev }) => {
   return (
     <ImageBackground
       resizeMethod="scale"
       style={s.backgroundImage}
-      source={require("../../../../assets/json/kolobok/images/kol_1.jpg")}
+      // source={require("../../../../../assets/json/kolobok/images/kol_1.jpg")}
+      source={image}
     >
-      <View >
-        <PauseView />      
+      <View>
+        <PauseView onPressNext={onPressNext} onPressPrev={onPressPrev} />
       </View>
     </ImageBackground>
   );
 };
 
-export default Fairytale;
+export default Scene;

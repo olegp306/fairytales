@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Button, Image } from "react-native";
+import { StyleSheet, Image } from "react-native";
+import ButtonWrapper from "./ButtonWrapper";
 
 const s = StyleSheet.create({
   next: {
@@ -7,11 +8,13 @@ const s = StyleSheet.create({
     resizeMode: "contain",
   },
 });
-const NextButton = ({ onClick }) => (
+const NextButton = ({ onPress }) => (
+  <ButtonWrapper  onPress={onPress}>
     <Image
       style={s.next}
       source={require("../../../../../assets/appImages/next.png")}
     />
+  </ButtonWrapper>
 );
 
 export default NextButton;
