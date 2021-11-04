@@ -8,19 +8,21 @@ const kolobokScenes = fairytales[0].ru.scenes;
 export default function App() {
   const [sceneNumber, setSceneNumber] = useState(0);
 
-
-
   const onPressNext = () => {
     setSceneNumber(sceneNumber + 1);
+    // setSceneNumber(sceneNumber === 7 ? sceneNumber + 1 : 0);
   };
 
   const onPressPrev = () => {
     setSceneNumber(sceneNumber - 1);
+    // setSceneNumber(sceneNumber === 0 ? 7 : sceneNumber - 1);
   };
 
   const scene = kolobokScenes[sceneNumber];
   const { image, record, text } = scene;
 
+  console.log("sceneNumber", sceneNumber);
+  console.log("scene", scene);
 
   return (
     <View style={styles.container}>

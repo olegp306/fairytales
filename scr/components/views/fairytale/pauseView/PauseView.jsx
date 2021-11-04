@@ -33,7 +33,7 @@ const s = StyleSheet.create({
   },
 });
 
-const PauseView = ({ onPressNext, onPressPrev }) => {
+const PauseView = ({ record, onPressNext, onPressPrev }) => {
   const [sound, setSound] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -50,9 +50,7 @@ const PauseView = ({ onPressNext, onPressPrev }) => {
       playThroughEarpieceAndroid: false,
     });
 
-    const { sound } = await Audio.Sound.createAsync(
-      require("../../../../../assets/json/kolobok/records/kol_1.mp3")
-    );
+    const { sound } = await Audio.Sound.createAsync(record);
 
     setSound(sound);
     playSound(sound);
@@ -63,11 +61,16 @@ const PauseView = ({ onPressNext, onPressPrev }) => {
     console.log("useEffect playSound");
     await sound.playAsync();
     setIsPlaying(true);
+    sound.setOnPlaybackStatusUpdate(async (status) => {
+      if (status.didJustFinish === true) {
+        onPressNextHandler();
+      }
+    });
   };
 
   useEffect(() => {
     loadingSound();
-  }, []);
+  }, [record]);
 
   const onPressPauseHandler = async () => {
     console.log("onPressPauseHandler");
@@ -78,19 +81,24 @@ const PauseView = ({ onPressNext, onPressPrev }) => {
   const onPressPlayHandler = async () => {
     console.log("onPressPlayHandler");
     playSound(sound);
-    setIsOpen(!isOpen);
+    setIsOpen(false);
   };
 
   const onPressScreen = async () => {
     console.log("onPressScreen");
   };
 
-  const onPrevClick = () => {
-    console.log("onPrevClick");
+  const onPressPrevHandler = async () => {
+    console.log("onPressPrev");
+    await sound.unloadAsync();
+    setIsOpen(false);
     onPressPrev();
   };
-  const onNextClick = () => {
-    console.log("onNextClick");
+
+  const onPressNextHandler = async () => {
+    console.log("onPressNext");
+    await sound.unloadAsync();
+    setIsOpen(false);
     onPressNext();
   };
   return (
@@ -107,8 +115,8 @@ const PauseView = ({ onPressNext, onPressPrev }) => {
           )}
         </View>
         <View style={s.bottom}>
-          <PrevButton onPress={onPrevClick} />
-          <NextButton onPress={onNextClick} />
+          <PrevButton onPress={onPressPrevHandler} />
+          <NextButton onPress={onPressNextHandler} />
         </View>
       </View>
     </TouchableOpacity>
