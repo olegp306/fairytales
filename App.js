@@ -24,6 +24,7 @@ export default function App() {
   const { image, record, text } = scene;
 
   console.log("sceneNumber", sceneNumber);
+  const isLastScene = kolobokScenes.length - 1 === sceneNumber;
   // console.log("scene", scene);
 
   return (
@@ -33,6 +34,7 @@ export default function App() {
         record={record}
         onPressNext={onPressNext}
         onPressPrev={onPressPrev}
+        isLastScene={isLastScene}
       />
 
       {/* <StatusBar style="auto" /> */}

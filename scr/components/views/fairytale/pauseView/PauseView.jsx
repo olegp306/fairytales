@@ -33,7 +33,7 @@ const s = StyleSheet.create({
   },
 });
 
-const PauseView = ({ record, onPressNext, onPressPrev }) => {
+const PauseView = ({ record, onPressNext, onPressPrev, isLastScene }) => {
   const [sound, setSound] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -62,8 +62,14 @@ const PauseView = ({ record, onPressNext, onPressPrev }) => {
     await sound.playAsync();
     setIsPlaying(true);
     sound.setOnPlaybackStatusUpdate(async (status) => {
-      if (status.didJustFinish === true) {
+      if (status.didJustFinish === true && !isLastScene) {
         onPressNextHandler();
+      }
+      if (isLastScene){
+        setIsPlaying(false);
+        if (sound) {
+          await sound.unloadAsync();
+        }
       }
     });
   };

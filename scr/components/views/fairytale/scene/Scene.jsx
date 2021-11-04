@@ -25,7 +25,14 @@ const s = StyleSheet.create({
   },
 });
 
-const Scene = ({ image, record, text, onPressNext, onPressPrev }) => {
+const Scene = ({
+  image,
+  record,
+  text,
+  onPressNext,
+  onPressPrev,
+  isLastScene,
+}) => {
   return (
     <ImageBackground
       resizeMethod="scale"
@@ -34,7 +41,12 @@ const Scene = ({ image, record, text, onPressNext, onPressPrev }) => {
       source={image}
     >
       <View>
-        <PauseView record={record} onPressNext={onPressNext} onPressPrev={onPressPrev} />
+        <PauseView
+          record={record}
+          onPressNext={onPressNext}
+          onPressPrev={onPressPrev}
+          isLastScene={isLastScene}
+        />
       </View>
     </ImageBackground>
   );
