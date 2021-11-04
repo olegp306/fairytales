@@ -9,13 +9,15 @@ export default function App() {
   const [sceneNumber, setSceneNumber] = useState(0);
 
   const onPressNext = () => {
-    setSceneNumber(sceneNumber + 1);
-    // setSceneNumber(sceneNumber === 7 ? sceneNumber + 1 : 0);
+    setSceneNumber(
+      sceneNumber !== kolobokScenes.length - 1 ? sceneNumber + 1 : 0
+    );
   };
 
   const onPressPrev = () => {
-    setSceneNumber(sceneNumber - 1);
-    // setSceneNumber(sceneNumber === 0 ? 7 : sceneNumber - 1);
+    setSceneNumber(
+      sceneNumber === 0 ? kolobokScenes.length - 1 : sceneNumber - 1
+    );
   };
 
   const scene = kolobokScenes[sceneNumber];
