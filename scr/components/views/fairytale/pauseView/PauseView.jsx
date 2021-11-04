@@ -90,14 +90,19 @@ const PauseView = ({ record, onPressNext, onPressPrev }) => {
 
   const onPressPrevHandler = async () => {
     console.log("onPressPrev");
-    await sound.unloadAsync();
+    if (sound.unloadAsync) {
+      await sound.unloadAsync();
+    }
+
     setIsOpen(false);
     onPressPrev();
   };
 
   const onPressNextHandler = async () => {
     console.log("onPressNext");
-    await sound.unloadAsync();
+    if (sound) {
+      await sound.unloadAsync();
+    }
     setIsOpen(false);
     onPressNext();
   };

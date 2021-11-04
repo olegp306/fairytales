@@ -22,7 +22,7 @@ export default function App() {
   const { image, record, text } = scene;
 
   console.log("sceneNumber", sceneNumber);
-  console.log("scene", scene);
+  // console.log("scene", scene);
 
   return (
     <View style={styles.container}>
