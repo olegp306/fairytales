@@ -7,6 +7,7 @@ import {
   StatusBar,
   SafeAreaView,
   Animated,
+  FlatList,
 } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
@@ -15,10 +16,9 @@ const imageW = width * 0.7;
 const imageH = imageW * 1.54;
 
 const ScenesList = ({ scenes }) => {
-  // console.log("ScenesList scenes", scenes[0]);
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  onViewableItemsChanged = ({ viewableItems, changed }) => {
+  const onViewableItemsChanged = ({ viewableItems, changed }) => {
     console.log("Visible items are", viewableItems);
     console.log("Changed in this iteration", changed);
   };
@@ -30,9 +30,9 @@ const ScenesList = ({ scenes }) => {
         justifyContent: "center",
         alignItems: "center",
         shadowColor: "#000",
-        shadowOpacity: 0.5,
+        shadowOpacity: 1,
         shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 50,
+        shadowRadius: 20,
       }}
     >
       <Image
@@ -41,7 +41,7 @@ const ScenesList = ({ scenes }) => {
           width: imageW,
           height: imageH,
           resizeMode: "cover",
-          borderRadius: "16",
+          borderRadius: 16,
         }}
       />
     </View>
@@ -66,23 +66,22 @@ const ScenesList = ({ scenes }) => {
               key={`image-${index}`}
               source={scene.image}
               style={[StyleSheet.absoluteFillObject, { opacity }]}
-              blurRadius={40}
+              blurRadius={10}
             />
           );
         })}
       </View>
       <Animated.FlatList
+        data={scenes}
+        keyExtractor={(_, index) => index.toString()}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: true }
         )}
-        onViewableItemsChanged={onViewableItemsChanged}
-        data={scenes}
-        keyExtractor={(i, index) => index}
         horizontal
         pagingEnabled
         renderItem={renderItem}
-      ></Animated.FlatList>
+      />
     </View>
   );
 };
