@@ -1,27 +1,32 @@
-import React from "react";
+import React, {  useEffect } from "react";
 import {
   StyleSheet,
   Image,
   View,
   Dimensions,
-  StatusBar,
-  SafeAreaView,
   Animated,
   FlatList,
 } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
-
 const imageW = width * 0.7;
 const imageH = imageW * 1.54;
 
-const ScenesList = ({ scenes }) => {
+const ScenesList = ({ scenes, onChangeSlide, sceneNumber = 0 }) => {
+  const flatListRef = React.useRef();
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const onViewableItemsChanged = ({ viewableItems, changed }) => {
-    console.log("Visible items are", viewableItems);
-    console.log("Changed in this iteration", changed);
-  };
+  const onViewRef = React.useRef(({ viewableItems }) => {
+    if (viewableItems) {   
+      onChangeSlide(viewableItems[0].index);
+    }
+  });
+
+  const viewConfigRef = React.useRef({
+    minimumViewTime: 300,
+    itemVisiblePercentThreshold: 50,
+  });
+
 
   const renderItem = ({ item }) => (
     <View
@@ -46,6 +51,15 @@ const ScenesList = ({ scenes }) => {
       />
     </View>
   );
+
+  useEffect(() => {
+    flatListRef.current.scrollToIndex({
+      animated: true,
+      index: sceneNumber,
+      viewOffset: 0,
+      viewPosition: 0,
+    });
+  }, [sceneNumber]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#000" }}>
@@ -73,12 +87,16 @@ const ScenesList = ({ scenes }) => {
       </View>
       <Animated.FlatList
         data={scenes}
+        ref={flatListRef}
         keyExtractor={(_, index) => index.toString()}
+        onViewableItemsChanged={onViewRef.current}
+        viewabilityConfig={viewConfigRef.current}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: true }
         )}
         horizontal
+        disableIntervalMomentum
         pagingEnabled
         renderItem={renderItem}
       />
