@@ -12,7 +12,7 @@ const NextButton = ({ onPress }) => (
   <ButtonWrapper  onPress={onPress}>
     <Image
       style={s.next}
-      source={require("../../../../../assets/appImages/next.png")}
+      source={require("../../../../assets/appImages/next.png")}
     />
   </ButtonWrapper>
 );

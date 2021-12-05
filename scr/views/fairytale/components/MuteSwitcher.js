@@ -11,12 +11,12 @@ const MuteSwitcher = ({ value }) => (
     {value ? (
       <Image
         style={s.mute}
-        source={require("../../../../../assets/appImages/mute.png")}
+        source={require("../../../../assets/appImages/mute.png")}
       />
     ) : (
       <Image
         style={s.mute}
-        source={require("../../../../../assets/appImages/mute.png")}
+        source={require("../../../../assets/appImages/mute.png")}
       />
     )}
   </>

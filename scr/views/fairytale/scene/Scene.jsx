@@ -37,7 +37,6 @@ const Scene = ({
     <ImageBackground
       resizeMethod="scale"
       style={s.backgroundImage}
-      // source={require("../../../../../assets/json/kolobok/images/kol_1.jpg")}
       source={image}
     >
       <View>

@@ -1,41 +1,29 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Scene from "./scr/components/views/fairytale";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Dimensions } from "react-native";
+
 import fairytales from "./fairytales";
+import FairyTale from "./scr/views/fairytale/FairyTale";
 
 const kolobokScenes = fairytales[0].ru.scenes;
 
 export default function App() {
-  const [sceneNumber, setSceneNumber] = useState(0);
-
-  const onPressNext = () => {
-    setSceneNumber(
-      sceneNumber !== kolobokScenes.length - 1 ? sceneNumber + 1 : 0
-    );
+  const [orientation, setOrientation] = useState();
+  const isPortrait = () => {
+    const dim = Dimensions.get("screen");
+    return dim.height >= dim.width;
   };
 
-  const onPressPrev = () => {
-    setSceneNumber(
-      sceneNumber === 0 ? kolobokScenes.length - 1 : sceneNumber - 1
-    );
-  };
+  useEffect(() => {
+    setOrientation(isPortrait() ? "portrait" : "landscape");
+  }, []);
 
-  const scene = kolobokScenes[sceneNumber];
-  const { image, record, text } = scene;
-
-  console.log("sceneNumber", sceneNumber);
-  const isLastScene = kolobokScenes.length - 1 === sceneNumber;
-  // console.log("scene", scene);
+  Dimensions.addEventListener("change", () => {
+    setOrientation(isPortrait() ? "portrait" : "landscape");
+  });
 
   return (
     <View style={styles.container}>
-      <Scene
-        image={image}
-        record={record}
-        onPressNext={onPressNext}
-        onPressPrev={onPressPrev}
-        isLastScene={isLastScene}
-      />
+      <FairyTale scenes={kolobokScenes} orientation={orientation} />
 
       {/* <StatusBar style="auto" /> */}
     </View>
@@ -45,6 +33,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
   },
 });

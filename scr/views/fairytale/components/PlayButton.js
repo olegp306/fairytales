@@ -3,19 +3,20 @@ import { Image, StyleSheet } from "react-native";
 import ButtonWrapper from "./ButtonWrapper";
 
 const s = StyleSheet.create({
-  prev: {
-    width: 80,
+  play: {
+    height: 100,
     resizeMode: "contain",
   },
 });
 
-const PrevButton = ({ onPress }) => (
+const PlayButton = ({ onPress }) => (
   <ButtonWrapper activeOpacity={0.8} onPress={onPress}>
     <Image
-      style={s.prev}
-      source={require("../../../../../assets/appImages/prev.png")}
+      onPress={onPress}
+      style={s.play}
+      source={require("../../../../assets/appImages/play.png")}
     />
   </ButtonWrapper>
 );
 
-export default PrevButton;
+export default PlayButton;
