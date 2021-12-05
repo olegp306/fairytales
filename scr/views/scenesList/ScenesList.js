@@ -9,21 +9,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const { width, height } = Dimensions.get("screen");
-const imageW = width * 0.7;
-const imageH = imageW * 1.54;
-
 const ScenesList = ({
   scenes,
   onSlidePress,
   onChangeSlide,
   sceneNumber = 0,
+  orientation,
 }) => {
+  const { width, height } = Dimensions.get("screen");
+  const imageW = orientation === "portrait" ? width * 0.9 : width * 0.9;
+  const imageH = orientation === "portrait" ?  imageW * 1.54: height * 0.95
+
   const flatListRef = React.useRef();
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const onViewRef = React.useRef(({ viewableItems }) => {
-    if (viewableItems) {
+    if (viewableItems && viewableItems[0]) {
       onChangeSlide(viewableItems[0].index);
     }
   });

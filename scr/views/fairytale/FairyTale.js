@@ -5,10 +5,10 @@ import ScenesList from "../scenesList/ScenesList";
 import PauseButton from "./components/PauseButton";
 import PauseView from "./pauseView/PauseView";
 
-const FairyTale = ({ scenes }) => {
+const FairyTale = ({ scenes, orientation }) => {
   const [sceneNumber, setSceneNumber] = useState(0);
   const [currentSound, setCurrentSound] = useState();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isOpenControls, setIsOpenControls] = useState(false);
 
   const scene = scenes[sceneNumber];
@@ -115,6 +115,7 @@ const FairyTale = ({ scenes }) => {
         sceneNumber={sceneNumber}
         onChangeSlide={onSetSceneNumberHandler}
         onSlidePress={onSlidePressHandler}
+        orientation={orientation}
       />
       {isOpenControls && (
         <PauseView
