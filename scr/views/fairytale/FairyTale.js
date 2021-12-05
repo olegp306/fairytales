@@ -5,17 +5,11 @@ import ScenesList from "../scenesList/ScenesList";
 import PauseButton from "./components/PauseButton";
 import PauseView from "./pauseView/PauseView";
 
-const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     backgroundColor: "#fff",
-  //   },
-});
-
 const FairyTale = ({ scenes }) => {
   const [sceneNumber, setSceneNumber] = useState(0);
   const [currentSound, setCurrentSound] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isOpenControls, setIsOpenControls] = useState(false);
 
   const scene = scenes[sceneNumber];
   const { record } = scene;
@@ -54,13 +48,6 @@ const FairyTale = ({ scenes }) => {
     });
   };
 
-  const uploadCurrentSound = async () => {
-    console.log("uploadCurrentSound");
-    if (currentSound) {
-      await currentSound.unloadAsync();
-    }
-  };
-
   const onPressPrevHandler = async () => {
     setSceneNumber(sceneNumber === 0 ? scenes.length - 1 : sceneNumber - 1);
   };
@@ -83,6 +70,11 @@ const FairyTale = ({ scenes }) => {
     }
   };
 
+  const onSlidePressHandler = () => {
+    console.log("onSlidePressHandler", isOpenControls);
+    setIsOpenControls(!isOpenControls);
+  };
+
   useEffect(() => {
     const asyncFn = async () => {
       await loadingSound();
@@ -92,7 +84,9 @@ const FairyTale = ({ scenes }) => {
 
   useEffect(() => {
     const asyncFn = async () => {
-      await playSound();
+      if (isPlaying) {
+        await playSound();
+      }
     };
     asyncFn();
   }, [currentSound]);
@@ -104,9 +98,10 @@ const FairyTale = ({ scenes }) => {
         await currentSound.unloadAsync();
         //load new
         await loadingSound();
-        if (isPlaying) {
-          await playSound();
-        }
+
+        // if (isPlaying) {
+        //   await playSound();
+        // }
       }
     };
 
@@ -115,13 +110,22 @@ const FairyTale = ({ scenes }) => {
 
   return (
     <>
-      {/* <PauseView
-        isPlaying={isPlaying}
-        onPressPrev={onPressPrevHandler}
-        onPressNext={onPressNextHandler}
-        onPressPlayPauseHandler={onPressPlayPauseHandler}
-      /> */}
-      <ScenesList scenes={scenes} onChangeSlide={onSetSceneNumberHandler} />
+      <ScenesList
+        scenes={scenes}
+        sceneNumber={sceneNumber}
+        onChangeSlide={onSetSceneNumberHandler}
+        onSlidePress={onSlidePressHandler}
+      />
+      {isOpenControls && (
+        <PauseView
+          closeHandler={() => setIsOpenControls(false)}
+          isPlaying={isPlaying}
+          // isOpenControls={isOpenControls}
+          onPressPrev={onPressPrevHandler}
+          onPressNext={onPressNextHandler}
+          onPressPlayPause={onPressPlayPauseHandler}
+        />
+      )}
     </>
   );
 };

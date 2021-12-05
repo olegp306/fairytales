@@ -1,4 +1,4 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Image,
@@ -6,18 +6,24 @@ import {
   Dimensions,
   Animated,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
 const imageW = width * 0.7;
 const imageH = imageW * 1.54;
 
-const ScenesList = ({ scenes, onChangeSlide, sceneNumber = 0 }) => {
+const ScenesList = ({
+  scenes,
+  onSlidePress,
+  onChangeSlide,
+  sceneNumber = 0,
+}) => {
   const flatListRef = React.useRef();
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const onViewRef = React.useRef(({ viewableItems }) => {
-    if (viewableItems) {   
+    if (viewableItems) {
       onChangeSlide(viewableItems[0].index);
     }
   });
@@ -26,7 +32,6 @@ const ScenesList = ({ scenes, onChangeSlide, sceneNumber = 0 }) => {
     minimumViewTime: 300,
     itemVisiblePercentThreshold: 50,
   });
-
 
   const renderItem = ({ item }) => (
     <View
@@ -40,15 +45,17 @@ const ScenesList = ({ scenes, onChangeSlide, sceneNumber = 0 }) => {
         shadowRadius: 20,
       }}
     >
-      <Image
-        source={item.image}
-        style={{
-          width: imageW,
-          height: imageH,
-          resizeMode: "cover",
-          borderRadius: 16,
-        }}
-      />
+      <TouchableOpacity onPress={onSlidePress} opacity={0.1}>
+        <Image
+          source={item.image}
+          style={{
+            width: imageW,
+            height: imageH,
+            resizeMode: "cover",
+            borderRadius: 16,
+          }}
+        />
+      </TouchableOpacity>
     </View>
   );
 
@@ -76,12 +83,14 @@ const ScenesList = ({ scenes, onChangeSlide, sceneNumber = 0 }) => {
             outputRange: [0, 1, 0],
           });
           return (
-            <Animated.Image
-              key={`image-${index}`}
-              source={scene.image}
-              style={[StyleSheet.absoluteFillObject, { opacity }]}
-              blurRadius={10}
-            />
+            <TouchableOpacity onPress={onSlidePress} opacity={0.1}>
+              <Animated.Image
+                key={`image-${index}`}
+                source={scene.image}
+                style={[StyleSheet.absoluteFillObject, { opacity }]}
+                blurRadius={10}
+              />
+            </TouchableOpacity>
           );
         })}
       </View>

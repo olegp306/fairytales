@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { Audio } from "expo-av";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  Animated,
+} from "react-native";
 import NextButton from "../components/NextButton";
 import PrevButton from "../components/PrevButton";
 import MuteSwitcher from "../components/MuteSwitcher";
@@ -8,14 +13,6 @@ import PlayButton from "../components/PlayButton";
 import PauseButton from "../components/PauseButton";
 
 const s = StyleSheet.create({
-  wrapper: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(52, 52, 52, 0.9)",
-  },
-
   top: {
     flexDirection: "row",
     justifyContent: "flex-end",
@@ -33,104 +30,85 @@ const s = StyleSheet.create({
   },
 });
 
-const PauseView = ({ record, onPressNext, onPressPrev, isLastScene }) => {
-  const [sound, setSound] = useState();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+const AUTOCLOSETIME = 3000;
 
-  const loadingSound = async () => {
-    console.log("useEffect loadingSound");
-    Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
-      staysActiveInBackground: true,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
-      playsInSilentModeIOS: true,
-      shouldDuckAndroid: true,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-      playThroughEarpieceAndroid: false,
-    });
-
-    const { sound } = await Audio.Sound.createAsync(record);
-
-    setSound(sound);
-    playSound(sound);
-    setIsPlaying(true);
-  };
-
-  const playSound = async (sound) => {
-    console.log("useEffect playSound");
-    await sound.playAsync();
-    setIsPlaying(true);
-    sound.setOnPlaybackStatusUpdate(async (status) => {
-      if (status.didJustFinish === true && !isLastScene) {
-        onPressNextHandler();
-      }
-      if (isLastScene){
-        setIsPlaying(false);
-        if (sound) {
-          await sound.unloadAsync();
-        }
-      }
-    });
-  };
-
+const PauseView = ({
+  closeHandler,
+  isPlaying,
+  onPressPlayPause,
+  onPressPrev,
+  onPressNext,
+}) => {
+  const [closeTimer, setCloseTimer] = useState();
   useEffect(() => {
-    loadingSound();
-  }, [record]);
+    setCloseTimer(setTimeout(closeHandler, AUTOCLOSETIME));
+    // fadeIn();
+  }, []);
 
-  const onPressPauseHandler = async () => {
-    console.log("onPressPauseHandler");
-    await sound.pauseAsync();
-    setIsPlaying(false);
+  const restartTimer = () => {
+    clearTimeout(closeTimer);
+    setCloseTimer(setTimeout(closeHandler, AUTOCLOSETIME));
+  };
+  const onPressPlayPauseHandler = () => {
+    restartTimer();
+    onPressPlayPause();
   };
 
-  const onPressPlayHandler = async () => {
-    console.log("onPressPlayHandler");
-    playSound(sound);
-    setIsOpen(false);
-  };
-
-  const onPressScreen = async () => {
-    console.log("onPressScreen");
-  };
-
-  const onPressPrevHandler = async () => {
-    console.log("onPressPrev");
-    if (sound.unloadAsync) {
-      await sound.unloadAsync();
-    }
-
-    setIsOpen(false);
+  const onPressPrevHandler = () => {
+    restartTimer();
     onPressPrev();
   };
-
-  const onPressNextHandler = async () => {
-    console.log("onPressNext");
-    if (sound) {
-      await sound.unloadAsync();
-    }
-    setIsOpen(false);
+  const onPressNextHandler = () => {
+    restartTimer();
     onPressNext();
   };
+
+  // const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  // const fadeIn = () => {
+  //   // Will change fadeAnim value to 1 in 5 seconds
+  //   Animated.timing(fadeAnim, {
+  //     toValue: 1,
+  //     duration: 1000,
+  //   }).start();
+  // };
+
+  // const fadeOut = () => {
+  //   // Will change fadeAnim value to 0 in 3 seconds
+  //   Animated.timing(fadeAnim, {
+  //     toValue: 0,
+  //     duration: 1000,
+  //   }).start();
+  // };
+
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={() => setIsOpen(!isOpen)}>
-      <View style={s.wrapper} opacity={isOpen ? 1 : 0} onPress={onPressScreen}>
+      <TouchableOpacity
+        onPress={closeHandler}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            position: "absolute",
+            flex: 1,
+            justifyContent: "space-between",
+            backgroundColor: "#000000BF",
+          },
+        ]}
+      >
         <View style={s.top}>
           <MuteSwitcher value={true} />
         </View>
         <View style={s.center}>
           {isPlaying ? (
-            <PauseButton onPress={onPressPauseHandler} />
+            <PauseButton onPress={onPressPlayPauseHandler} />
           ) : (
-            <PlayButton onPress={onPressPlayHandler} />
+            <PlayButton onPress={onPressPlayPauseHandler} />
           )}
         </View>
         <View style={s.bottom}>
           <PrevButton onPress={onPressPrevHandler} />
           <NextButton onPress={onPressNextHandler} />
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
   );
 };
 
