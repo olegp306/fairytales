@@ -62,25 +62,6 @@ const PauseView = ({
     restartTimer();
     onPressNext();
   };
-
-  // const fadeAnim = useRef(new Animated.Value(0)).current;
-
-  // const fadeIn = () => {
-  //   // Will change fadeAnim value to 1 in 5 seconds
-  //   Animated.timing(fadeAnim, {
-  //     toValue: 1,
-  //     duration: 1000,
-  //   }).start();
-  // };
-
-  // const fadeOut = () => {
-  //   // Will change fadeAnim value to 0 in 3 seconds
-  //   Animated.timing(fadeAnim, {
-  //     toValue: 0,
-  //     duration: 1000,
-  //   }).start();
-  // };
-
   return (
       <TouchableOpacity
         onPress={closeHandler}
@@ -93,6 +74,7 @@ const PauseView = ({
             backgroundColor: "#000000BF",
           },
         ]}
+        activeOpacity={.9}
       >
         <View style={s.top}>
           <MuteSwitcher value={true} />
