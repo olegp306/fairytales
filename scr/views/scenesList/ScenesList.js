@@ -46,7 +46,7 @@ const ScenesList = ({
         shadowRadius: 20,
       }}
     >
-      <TouchableOpacity onPress={onSlidePress} opacity={0.1}>
+      <TouchableOpacity onPress={onSlidePress} activeOpacity={.9}>
         <Image
           source={item.image}
           style={{
@@ -84,12 +84,12 @@ const ScenesList = ({
             outputRange: [0, 1, 0],
           });
           return (
-            <TouchableOpacity onPress={onSlidePress} opacity={0.1}>
+            <TouchableOpacity onPress={onSlidePress} activeOpacity={.9}>
               <Animated.Image
                 key={`image-${index}`}
                 source={scene.image}
                 style={[StyleSheet.absoluteFillObject, { opacity }]}
-                blurRadius={10}
+                blurRadius={15}
               />
             </TouchableOpacity>
           );
